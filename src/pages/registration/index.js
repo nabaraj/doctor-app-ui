@@ -5,7 +5,7 @@ export default function Registration(props) {
   return (
     <div>
       <Header path={props.location.pathname}/>
-      Registration
+      
     </div>
   )
 }
