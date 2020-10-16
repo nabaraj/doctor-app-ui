@@ -4,13 +4,13 @@ import { combineReducers } from "redux";
 // import shareBoxReducer from "./shareBoxReducer";
 // import notificationReducer from "./notificationReducer";
 // import loadingReducer from "./loadingReducer";
-// import userReducers from "./userReducer";
+import userReducers from "./user";
 // import postCORS from "./postReducer";
 // import cateGoryReducer from "./categoriesReducer";
 // import sideBarReducer from "./sidebarReducer";
 // import joiningReducer from "./joinReducer";
 
-const appReducer = combineReducers({});
+const appReducer = combineReducers({ userData: userReducers });
 
 const rootReducer = (state, action) => {
   // console.log("rootReducer", state, action);
