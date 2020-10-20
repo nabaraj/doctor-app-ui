@@ -14,7 +14,7 @@ import {profileLogout} from "./../../actions/loginAction";
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import { shadows } from '@material-ui/system';
 import { getProfile } from "./../../actions/loginAction";
-
+// import { ReactComponent as Logo } from  "./../../";
 import { getLocalStorageData } from "./../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -85,11 +85,15 @@ export default function Header({ path, history }) {
     <AppBar position="static" className="color-white">
       {/* {!userLoggedIn && <Redirect to='/'/>} */}
       <Toolbar>
-        <IconButton color="inherit">
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          {pathNameObject ? pathNameObject.title : ""}
+        <div color="inherit">
+          {/* <MenuIcon /> */}
+          <Avatar alt="Doctor App" className="img-responsive w-25"  src="/heart.svg" />
+          {/* {`${process.env.PUBLIC_URL}/images/image.png`} */}
+          <div className="d-none">Icons made by <a href="https://www.flaticon.com/free-icon/doctor_387561?term=doctor&page=1&position=13" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div>
+          <div className="d-none">Icons made by <a href="https://www.flaticon.com/free-icon/heart_684279?term=doctor&page=2&position=5" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div>
+        </div>
+        <Typography variant="h6" className={`${classes.title}`}>
+          {/* {pathNameObject ? pathNameObject.title : ""} */}
         </Typography>
         {userLoggedIn && (
           <div className="d-flex align-item-center">
@@ -104,10 +108,11 @@ export default function Header({ path, history }) {
               color="inherit"
             >
               {/* <AccountCircle /> */}
-              <Avatar 
+              {/* <Avatar 
               className={`${classes.purple} text-uppercase font-18`} 
               border={1}
-              boxShadow={3}>{user.name.slice(0, 1)}</Avatar>
+              boxShadow={3}>{user.name.slice(0, 1)}</Avatar> */}
+              <MenuIcon/>
             </IconButton>
             <Menu
               id="menu-appbar"

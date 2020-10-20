@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import { CircularProgress, Link, Typography } from "@material-ui/core";
+import { CircularProgress, Link, Typography, Avatar } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -36,13 +36,14 @@ export default function Login(props) {
   }
   return (
     <div>
-      <Header path="/login" history={props.history} />
+      {/* <Header path="/login" history={props.history} /> */}
       <Grid container direction="row" justify="center" alignItems="flex-start">
         <Grid item sm={4} xs={12}>
           <Card className="p-4 my-4">
             <form onSubmit={submitLoginForm}>
               <Typography variant="h6" className="text-center">
-                Login Form
+              <div className="d-flex justify-content-center"><Avatar alt="Remy Sharp" src="./heart.svg" /> </div>
+              Login Form
               </Typography>
               <CardActions justify="center" className="px-0 pt-3">
                 <TextField

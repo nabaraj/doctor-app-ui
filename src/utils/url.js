@@ -1,10 +1,12 @@
 import { patientDetails } from "../actions/patientAction";
 
 // const basePath = "https://doctor-app-backend-express.herokuapp.com";
-const basePath = "http://localhost:3000";
+let basePath = "http://localhost:3000";
 const patient = "patient";
 const doctor = "doctor";
-
+if (process.env.NODE_ENV === 'production') {
+  basePath = "https://doctor-app-backend-express.herokuapp.com";
+}
 const urlMapping = {
   login: `${basePath}/${doctor}/login`,
   profile: `${basePath}/profile`,

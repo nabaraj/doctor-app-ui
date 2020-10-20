@@ -32,8 +32,7 @@ class Patient extends Component {
         insurance: '',
         address: "",
         image: "",
-        height: "",
-      }
+        height: ""      }
     };
     this.handleChange = this.handleChange.bind(this);
     this.patientRegistration = this.patientRegistration.bind(this);
@@ -53,9 +52,13 @@ class Patient extends Component {
   }
   patientRegistration(e){
     e.preventDefault();
+    let setFormData = {...this.state.formData,  'doctorId':this.props.user._id};
     this.setState({
-      loadingForm:true
-    },()=> {this.props.patientRegistration(this.state.formData)})
+      loadingForm:true,
+      formData:setFormData
+    },()=> {
+      
+      this.props.patientRegistration(this.state.formData)})
   }
   componentDidUpdate(prevProps){
     
@@ -63,6 +66,7 @@ class Patient extends Component {
       this.setState({
       loadingForm:false
     })
+
       this.props.history.push("/patient/"+this.props.patientData.patientId)
     }
   }
@@ -251,6 +255,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     patientData: state.patientData.patientDetials,
+    user: state.userData.user
   };
 }
 
