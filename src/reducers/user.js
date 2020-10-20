@@ -37,7 +37,7 @@ const userReducers = (
     default:
       return state;
   }
-  return state;
+  // return state;
 };
 
 export default userReducers;

@@ -6,13 +6,13 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { pathConst } from "./../../utils/const";
 import { Avatar, IconButton, MenuItem } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+// import AccountCircle from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import { makeStyles } from "@material-ui/core/styles";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import {profileLogout} from "./../../actions/loginAction";
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
-import { shadows } from '@material-ui/system';
+// import { deepOrange, deepPurple } from '@material-ui/core/colors';
+// import { shadows } from '@material-ui/system';
 import { getProfile } from "./../../actions/loginAction";
 // import { ReactComponent as Logo } from  "./../../";
 import { getLocalStorageData } from "./../../utils/utils";
@@ -36,15 +36,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header({ path, history }) {
   const classes = useStyles();
-  const pathNameObject = path ? pathConst[path] : "";
+  // const pathNameObject = path ? pathConst[path] : "";
   const { user, userLoggedIn } = useSelector((state) => state.userData);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [auth, setAuth] = React.useState(true);
+  // const [auth, setAuth] = React.useState(true);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  // const handleChange = (event) => {
+  //   setAuth(event.target.checked);
+  // };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
