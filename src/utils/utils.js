@@ -23,4 +23,18 @@ let AUTH_USER = function () {
     ? { Authorization: "Bearer " + getLocalStorageData("token") }
     : getLocalStorageData("token");
 };
-export { getCookie, getLocalStorageData, AUTH_USER };
+
+let validateEmail = function (email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function calculate_age(dob) { 
+    let doB = new Date(dob);
+    console.log(doB);
+    var diff_ms = Date.now() - doB.getTime();
+    var age_dt = new Date(diff_ms); 
+  
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+export { getCookie, getLocalStorageData, AUTH_USER, validateEmail, calculate_age };

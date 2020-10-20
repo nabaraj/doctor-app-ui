@@ -6,6 +6,7 @@ import Home from "./pages/home";
 import NoMatch from "./pages/nomatch";
 import Patient from "./pages/patient/Patient";
 import Login from "./pages/login";
+import DisplayPatient from "./pages/DisplayPatient";
 import './scss/app.scss';
 import Registration from "./pages/registration";
 
@@ -37,6 +38,7 @@ export default class App extends Component {
           <Route exact path={`${process.env.PUBLIC_URL}/registration`} component={Registration} />
           <Route exact path={`${process.env.PUBLIC_URL}/home`} component={Home} />
           <Route exact path={`${process.env.PUBLIC_URL}/patient`} component={Patient} />
+          <Route exact path={`${process.env.PUBLIC_URL}/patient/:id`} component={DisplayPatient} />
           <Route component={NoMatch} />
         </Switch>
         </ThemeProvider>

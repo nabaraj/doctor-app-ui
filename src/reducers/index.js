@@ -5,12 +5,16 @@ import { combineReducers } from "redux";
 // import notificationReducer from "./notificationReducer";
 // import loadingReducer from "./loadingReducer";
 import userReducers from "./user";
+import patientReducer from "./../pages/DisplayPatient/patientReducer";
 // import postCORS from "./postReducer";
 // import cateGoryReducer from "./categoriesReducer";
 // import sideBarReducer from "./sidebarReducer";
 // import joiningReducer from "./joinReducer";
 
-const appReducer = combineReducers({ userData: userReducers });
+const appReducer = combineReducers({ 
+  userData: userReducers,
+  patientData: patientReducer
+});
 
 const rootReducer = (state, action) => {
   // console.log("rootReducer", state, action);

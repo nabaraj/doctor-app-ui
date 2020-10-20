@@ -1,77 +1,257 @@
-import { Input, TextField } from "@material-ui/core";
-import React, { Component, Fragment } from "react";
+import {
+  Accordion,
+  CircularProgress,
+  TextField,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Card,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React, { Component } from "react";
 import Header from "./../../components/header/Header";
 import { Container, Grid, Button } from "@material-ui/core";
+import {patientRegistration, clearPatientDetails} from "./../../actions/patientAction";
+import { connect } from "react-redux";
+import { bindActionCreators, dispatch } from "redux";
+import {validateEmail} from "./../../utils/utils";
 
-
-export default class Patient extends Component {
+class Patient extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      selectedDate: new Date('2014-08-18T21:11:54')
-    }
-    this.handleDateChange = this.handleDateChange.bind(this)
+    this.state = {
+      checkedOptional: false,
+      loadingForm: false,
+      formData: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        nationality: "",
+        dob: "",
+        insurance: '',
+        address: "",
+        image: "",
+        height: "",
+      }
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.patientRegistration = this.patientRegistration.bind(this);
   }
 
-  // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-  handleDateChange(e){
-    console.log("date ",e.target.value);
+  componentDidMount(){
+    this.props.clearPatientDetails();
+  }
+  
+  handleChange(e) {
+    let name = e.target.name;
+    let value = e.target.value;
+    let setFormData = {...this.state.formData, [name]:value};
     this.setState({
-      selectedDate:e.target.value
+      formData:setFormData,
+    });
+  }
+  patientRegistration(e){
+    e.preventDefault();
+    this.setState({
+      loadingForm:true
+    },()=> {this.props.patientRegistration(this.state.formData)})
+  }
+  componentDidUpdate(prevProps){
+    
+    if(Object.keys(this.props.patientData).length>0){
+      this.setState({
+      loadingForm:false
     })
-  };
-
+      this.props.history.push("/patient/"+this.props.patientData.patientId)
+    }
+  }
   render() {
+    let{firstName,
+      lastName,
+      email,
+      phone,
+      nationality,
+      insurance,
+      address,
+      height}=this.state.formData;
     return (
       <div>
         <Header path={this.props.location.pathname} />
         <Container className="py-4" maxWidth="md">
-          <Grid container spacing={3} alignItems="center">
-            <Grid item sm="6" xs="12">
-              <TextField
-                id="firstName"
-                name="firstName"
-                label="First Name"
-                fullWidth
-              />
-            </Grid>
-            <Grid item sm="6" xs="12">
-              <TextField
-                id="lastName"
-                name="lastName"
-                label="Last Name"
-                fullWidth
-              />
-            </Grid>
-            <Grid item sm="6" xs="12">
-              <TextField
-                id="email"
-                name="email"
-                label="Email"
-                fullWidth
-                type="email"
-              />
-            </Grid>
-            
-              <Grid item sm="6" xs="12">
-              <TextField
-        id="date"
-        label="Birthday"
-        className="fullWidth"
-        type="date"
-        defaultValue="2017-05-24"
-        value={this.state.selectedDate}
-        onChange = {this.handleDateChange}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
+        <Card className="p-3">
+            <form onSubmit={this.patientRegistration}>
+              <Grid container spacing={3} alignItems="center">
+                <Grid item sm="6" xs="12">
+                  <TextField
+                    id="firstName"
+                    name="firstName"
+                    label="First Name *"
+                    value = {firstName}
+                    fullWidth
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid item sm="6" xs="12">
+                  <TextField
+                    id="lastName"
+                    name="lastName"
+                    label="Last Name"
+                    fullWidth
+                    value={lastName}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid item sm="6" xs="12">
+                  <TextField
+                    id="email"
+                    name="email"
+                    label="Email"
+                    fullWidth
+                    type="email"
+                    value={email}
+                    error={email!=='' && !validateEmail(email)}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+
+                <Grid item sm="6" xs="12">
+                  <TextField
+                    id="dob"
+                    name="dob"
+                    label="Birthday"
+                    className="fullWidth"
+                    type="date"
+                    value={this.state.dob}
+                    onChange={this.handleChange}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Grid>
+                <Grid item sm="6" xs="12">
+                  <TextField
+                    id="phone"
+                    name="phone"
+                    label="Phone no"
+                    fullWidth
+                    type="tel"
+                    value={phone}
+                    pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid item sm="6" xs="12">
+                  <TextField
+                    id="nationality"
+                    name="nationality"
+                    label="Nationality"
+                    fullWidth
+                    type="text"
+                    value={nationality}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid xs="12">
+                  <Accordion className="boxShadow-none">
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Optional Fields</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Grid item xs="6">
+                          <TextField
+                            id="address"
+                            name="address"
+                            label="Address"
+                            fullWidth
+                            value={address}
+                            multiline
+                            onChange={this.handleChange}
+                          />
+                        </Grid>
+                        <Grid item xs="6">
+                          <TextField
+                            id="insurance"
+                            name="insurance"
+                            label="Insurance"
+                            value={insurance}
+                            fullWidth
+                            onChange={this.handleChange}
+                          />
+                        </Grid>
+                        <Grid item xs="6">
+                          <TextField
+                            id="height"
+                            name="height"
+                            label="Height"
+                            value={height}
+                            fullWidth
+                            onChange={this.handleChange}
+                          />
+                        </Grid>
+                        {/* <Grid item xs="6">
+                    <Button
+  variant="contained"
+  component="label"
+>
+  Upload File
+  <input
+    type="file"
+    style={{ display: "none" }}
+  />
+</Button>
+                    </Grid> */}
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+                </Grid>
+                <Grid xs="12" className="pt-3">
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    size="large"
+                    className="fullWidth"
+                    disabled={(!firstName && !lastName)|| this.state.loadingForm}
+                  >
+                    Submit Details
+                    {this.state.loadingForm && (
+                      <div className="pl-2 w-15 d-flex justify-content-center">
+                        <CircularProgress
+                          color="secondary"
+                          className="w-15"
+                          size="20"
+                        />
+                      </div>
+                    )}
+                  </Button>
+                </Grid>
               </Grid>
-            
-          </Grid>
+            </form>
+          </Card>
         </Container>
       </div>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      patientRegistration: patientRegistration,
+      clearPatientDetails: clearPatientDetails
+    },
+    dispatch
+  );
+}
+function mapStateToProps(state) {
+  return {
+    patientData: state.patientData.patientDetials,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Patient)

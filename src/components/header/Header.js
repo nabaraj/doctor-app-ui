@@ -94,7 +94,7 @@ export default function Header({ path, history }) {
         {userLoggedIn && (
           <div className="d-flex align-item-center">
             <Typography variant="h6" className="pr-2" fontSize={20}>
-              {user.name}
+              {user.initial}{user.name}
             </Typography>
             <IconButton
               aria-label="account of current user"
@@ -107,8 +107,7 @@ export default function Header({ path, history }) {
               <Avatar 
               className={`${classes.purple} text-uppercase font-18`} 
               border={1}
-              boxShadow={3} 
-              borderColor="grey.500">{user.name.slice(0, 2)}</Avatar>
+              boxShadow={3}>{user.name.slice(0, 1)}</Avatar>
             </IconButton>
             <Menu
               id="menu-appbar"

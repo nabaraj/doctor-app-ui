@@ -4,6 +4,7 @@ let initialValue = {
   userLoggedIn: false,
   loginLoading:false,
   user: {},
+  patientDetials:{},
 }
 const userReducers = (
   state = initialValue,
@@ -21,8 +22,8 @@ const userReducers = (
     case "RESET_LOGIN":
       window.localStorage.clear();
       return Object.assign({}, state, initialValue)
-    // case types.SAVE_USER_WOP:
-    //   return Object.assign({}, state, { ...action.payload });
+    case 'SAVE_PATIENT_DETAILS':
+      return Object.assign({}, state, {patientDetials:{ ...action.payload }})
     // case types.REMOVE_USER_DETAILS:
     //   return Object.assign({}, state, {});
     // case types.HEADER_IMAGE_LOADER:
