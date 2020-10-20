@@ -1,6 +1,7 @@
 {
   "name": "doctor-app-ui",
   "version": "0.1.0",
+  "homepage": "https://doctor-app-brd.netlify.app/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
