@@ -75,7 +75,7 @@ export default function DisplayPatient(props) {
                     </Grid>
                     <Grid item sm="6" xs="12" className="text-right">
                       <div className="ml-auto">
-                        Age:{" "}
+                        {patientDetails.gender || ""}
                         {isNaN(calculate_age(patientDetails.dob))
                           ? ""
                           : calculate_age(patientDetails.dob)}

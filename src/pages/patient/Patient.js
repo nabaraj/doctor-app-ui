@@ -15,6 +15,7 @@ import {patientRegistration, clearPatientDetails} from "./../../actions/patientA
 import { connect } from "react-redux";
 import { bindActionCreators, dispatch } from "redux";
 import {validateEmail} from "./../../utils/utils";
+import MenuItem from '@material-ui/core/MenuItem';
 
 class Patient extends Component {
   constructor(props) {
@@ -32,7 +33,15 @@ class Patient extends Component {
         insurance: '',
         address: "",
         image: "",
-        height: ""      }
+        gender: "",
+        height: ""      },
+      genderOption:[{
+        value:"M",
+        label:"Male"
+      },{
+        value:"F",
+        label:"Female"
+      }]
     };
     this.handleChange = this.handleChange.bind(this);
     this.patientRegistration = this.patientRegistration.bind(this);
@@ -78,6 +87,7 @@ class Patient extends Component {
       nationality,
       insurance,
       address,
+      gender,
       height}=this.state.formData;
     return (
       <div>
@@ -108,7 +118,7 @@ class Patient extends Component {
                     onChange={this.handleChange}
                   />
                 </Grid>
-                <Grid item sm="6" xs="12">
+                <Grid item sm="4" xs="12">
                   <TextField
                     id="email"
                     name="email"
@@ -120,8 +130,26 @@ class Patient extends Component {
                     onChange={this.handleChange}
                   />
                 </Grid>
+                <Grid item sm="4" xs="12">
+                  <TextField
+                    id="gender"
+                    name="gender"
+                    label="Gender"
+                    select
+                    fullWidth
+                    value={gender}
+                    onChange={this.handleChange}
+                  >
+                    this.state.genderOption
+                    {this.state.genderOption.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+                  </TextField>
+                </Grid>
 
-                <Grid item sm="6" xs="12">
+                <Grid item sm="4" xs="12">
                   <TextField
                     id="dob"
                     name="dob"
@@ -216,12 +244,13 @@ class Patient extends Component {
                     </AccordionDetails>
                   </Accordion>
                 </Grid>
-                <Grid xs="12" className="pt-3">
+                <Grid xs="12" className="pt-3 text-center" >
                   <Button
                     type="submit"
-                    variant="outlined"
+                    variant="contained"
                     size="large"
-                    className="fullWidth"
+                    color="primary"
+                    className="w-75"
                     disabled={(!firstName && !lastName)|| this.state.loadingForm}
                   >
                     Submit Details

@@ -13,3 +13,8 @@ body {
 .fullWidth {
   width: 100%;
 }
+@media print{
+  body{
+    background-color: red;
+  }
+}

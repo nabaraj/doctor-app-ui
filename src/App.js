@@ -17,7 +17,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       // Purple and green play nicely together.
-      main: "#00bcd4",
+      main: "#007066",
     },
   },
 });
