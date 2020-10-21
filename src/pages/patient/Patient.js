@@ -88,9 +88,10 @@ class Patient extends Component {
               <Grid container spacing={3} alignItems="center">
                 <Grid item sm="6" xs="12">
                   <TextField
+                    required
                     id="firstName"
                     name="firstName"
-                    label="First Name *"
+                    label="First Name"
                     value = {firstName}
                     fullWidth
                     onChange={this.handleChange}
@@ -98,6 +99,7 @@ class Patient extends Component {
                 </Grid>
                 <Grid item sm="6" xs="12">
                   <TextField
+                    required
                     id="lastName"
                     name="lastName"
                     label="Last Name"
@@ -254,7 +256,7 @@ function mapDispatchToProps(dispatch) {
 }
 function mapStateToProps(state) {
   return {
-    patientData: state.patientData.patientDetials,
+    patientData: state.patientData.patientDetails,
     user: state.userData.user
   };
 }

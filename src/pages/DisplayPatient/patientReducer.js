@@ -1,7 +1,8 @@
 // SAVE_PATIENT_DETAILS// import * as types from "./../actions/types";
 // SAVE_USER_DETAILS
 let initialValue = {
-  patientDetials:{},
+  patientDetails:{},
+  patientHistory:null
 }
 const patientReducer = (
   state = initialValue,
@@ -9,9 +10,11 @@ const patientReducer = (
 ) => {
   switch (action.type) {
     case 'SAVE_PATIENT_DETAILS':
-      return Object.assign({}, state, {patientDetials:{ ...action.payload }})
+      return Object.assign({}, state, {patientDetails:{ ...action.payload }})
     case 'CLEAR_PATIENT_DETAILS':
       return Object.assign({}, state, initialValue)
+    case 'STORE_USER_HISTORY':
+      return Object.assign({}, state, {patientHistory:{...action.payload}})
     default:
       return state;
   }

@@ -6,7 +6,7 @@ import { CircularProgress, Link, Typography, Avatar } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { userLogin } from "../../actions/loginAction";
+import { userLogin,resetLogin } from "../../actions/loginAction";
 import Header from "./../../components/header/Header";
 import { Redirect } from "react-router-dom";
 
@@ -19,7 +19,9 @@ export default function Login(props) {
   const {loginLoading, userLoggedIn} = useSelector((state) => state.userData);
 
   const dispatch = useDispatch();
-
+  useEffect(()=>{
+    dispatch(resetLogin())
+  },[])
   const changeField = (e) => {
     let value = e.target.value;
     let name = e.target.name;
@@ -34,6 +36,7 @@ export default function Login(props) {
   if(userLoggedIn){
     return <Redirect to="/home" />
   }
+  
   return (
     <div>
       {/* <Header path="/login" history={props.history} /> */}
@@ -76,7 +79,7 @@ export default function Login(props) {
                   variant="contained"
                   color="primary"
                   className="w-50"
-                  disabled={(!account.userName && !account.password) || loginLoading}
+                  // disabled={(!account.userName && !account.password) || loginLoading}
                 >
                   Submit
                   {loginLoading && <div className="pl-2 w-15 d-flex justify-content-center">

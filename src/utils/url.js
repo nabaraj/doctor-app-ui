@@ -12,7 +12,9 @@ const urlMapping = {
   profile: `${basePath}/profile`,
   logout: `${basePath}/logout`,
   patientRegistration: `${basePath}/${patient}/registration`,
-  patientDetails: `${basePath}/${patient}/details`
+  patientDetails: `${basePath}/${patient}/details`,
+  patientHistory: `${basePath}/${patient}/history`,
+
 };
 
 export { urlMapping };

@@ -61,11 +61,11 @@ class Home extends Component {
         <Header path="/home" history={this.props.history} />
         <Container className="py-4" maxWidth="md">
           <Grid container spacing={3} alignItems="center">
-            <Grid xs="9">
+            <Grid item sm="9" xs="12">
               <Autocomplete />
             </Grid>
-            <Grid xs="3" className="text-right">
-              <Button  href="/patient" size="large">Add new entry</Button>
+            <Grid item sm="3" xs="12" className="text-right">
+              <Button  href="/patient" size="large" className="fullWidth" color="primary">Add new entry</Button>
             </Grid>
           </Grid>
         </Container>

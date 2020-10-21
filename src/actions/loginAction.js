@@ -67,3 +67,8 @@ export function profileLogout(){
       });
   }
 }
+export function resetLogin(){
+  return function(dispatch){
+    dispatch({type:'RESET_LOGIN'})
+  }
+}

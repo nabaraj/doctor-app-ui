@@ -4,7 +4,7 @@ let initialValue = {
   userLoggedIn: false,
   loginLoading:false,
   user: {},
-  patientDetials:{},
+  patientDetails:{},
 }
 const userReducers = (
   state = initialValue,
@@ -23,7 +23,7 @@ const userReducers = (
       window.localStorage.clear();
       return Object.assign({}, state, initialValue)
     case 'SAVE_PATIENT_DETAILS':
-      return Object.assign({}, state, {patientDetials:{ ...action.payload }})
+      return Object.assign({}, state, {patientDetails:{ ...action.payload }})
     // case types.REMOVE_USER_DETAILS:
     //   return Object.assign({}, state, {});
     // case types.HEADER_IMAGE_LOADER:

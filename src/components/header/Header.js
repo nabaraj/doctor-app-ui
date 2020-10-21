@@ -36,15 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header({ path, history }) {
   const classes = useStyles();
-  // const pathNameObject = path ? pathConst[path] : "";
   const { user, userLoggedIn } = useSelector((state) => state.userData);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [auth, setAuth] = React.useState(true);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
-  // const handleChange = (event) => {
-  //   setAuth(event.target.checked);
-  // };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,31 +51,15 @@ export default function Header({ path, history }) {
   const handleLogOut = ()=>{
     dispatch(profileLogout())
   }
-  // console.log("header ", user);
-  // useEffect(()=>{
-  //   if(!userLoggedIn && shouldRedirect){
-  //     console.log('redirect to base');
-  //   }
-  // },[shouldRedirect, userLoggedIn])
   useEffect(()=>{
       let token = getLocalStorageData("token");
-      // if (user.userLoggedIn) {
-      //   this.setState({
-      //     isLoggedIn: this.props.user.userLoggedIn,
-      //   });
-      // } else {
         if (token) {
           console.log(token);
-          // checkProfile
           dispatch(getProfile(token));
         } else {
-          // if (!this.props.user.userLoggedIn) {
           history.push("/");
-          // }
         }
-      // }
-    
-  },[dispatch, history])
+  },[])
   return (
     <AppBar position="static" className="color-white">
       {/* {!userLoggedIn && <Redirect to='/'/>} */}

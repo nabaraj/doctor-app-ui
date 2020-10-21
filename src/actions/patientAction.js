@@ -20,33 +20,40 @@ export function patientRegistration(patientFormData) {
       });
   };
 }
-export function patientDetails(patientId) {
+export function getPatientDetails(patientId) {
   return function (dispatch) {
-    //dispatch({type:LOADING_STATUS, payload:options });
-    // let usrToken = { Authorization: "Token " + getCookie("loginToken") };
     let options = {
       method: "GET",
       url: urlMapping["patientDetails"]+"/?patientId="+patientId,
       headers: AUTH_USER()
     };
-    // dispatch({type:'LOGIN_LOADING'});
     requestApi(options)
       .then((result) => {
-        console.log("patient details ",result.data);
         dispatch({ type: "SAVE_PATIENT_DETAILS", payload: result.data });
-        // dispatch({type:'LOGIN_LOADING'});
-        // dispatch({type:'LOGIN_STATUS'});
       })
       .catch((error) => {
         dispatch({ type: "SAVE_PATIENT_DETAILS", payload: {'error':"No match found"} });
-        // console.log(JSON.stringify(error));
-        // dispatch({ type: PRAIZING_LOGOUT });
-        // dispatch({ type: REMOVE_USER_DETAILS });
       });
   };
 }
 export function clearPatientDetails(){
   return function (dispatch){
     dispatch({type:'CLEAR_PATIENT_DETAILS'})
+  }
+}
+export function getPatientHistory(pi, di){
+  return function (dispatch){
+    let getHistoryObject = {
+      url: `${urlMapping['patientHistory']}/?patientId=${pi}&doctorId=${di}`,
+      method: 'GET',
+      headers: AUTH_USER()
+    }
+    requestApi(getHistoryObject)
+    .then(res=>{
+      dispatch({type:'STORE_USER_HISTORY', payload: res.data})
+    })
+    .catch(error=>{
+      dispatch({ type: "STORE_USER_HISTORY", payload: {'error':"No history found"} });
+    })
   }
 }
