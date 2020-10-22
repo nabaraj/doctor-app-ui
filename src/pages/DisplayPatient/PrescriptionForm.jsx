@@ -52,6 +52,7 @@ export default function PrescriptionForm() {
             checked={toggleContent}
             onChange={handleChange}
             name="checkedA"
+            size="small"
             inputProps={{ "aria-label": "secondary checkbox" }}
             color="primary"
           ></Switch>

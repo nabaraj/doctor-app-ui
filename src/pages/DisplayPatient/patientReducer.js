@@ -2,7 +2,9 @@
 // SAVE_USER_DETAILS
 let initialValue = {
   patientDetails:{},
-  patientHistory:null
+  patientHistory:null,
+  serchData:{},
+  searchLoading:false
 }
 const patientReducer = (
   state = initialValue,
@@ -15,6 +17,11 @@ const patientReducer = (
       return Object.assign({}, state, initialValue)
     case 'STORE_USER_HISTORY':
       return Object.assign({}, state, {patientHistory:{...action.payload}})
+    case 'SEARCH_RESULT_ADD':
+      return Object.assign({}, state, {serchData:{...action.payload}})
+    case 'SEARCH_LOADER':
+      let loading = state.searchLoading;
+      return Object.assign({}, state, {searchLoading:!loading})
     default:
       return state;
   }

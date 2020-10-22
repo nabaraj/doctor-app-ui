@@ -76,7 +76,7 @@ class Patient extends Component {
       loadingForm:false
     })
 
-      this.props.history.push("/patient/"+this.props.patientData.patientId)
+      this.props.history.push("/patient/"+this.props.patientData._id)
     }
   }
   render() {

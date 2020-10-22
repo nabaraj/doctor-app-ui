@@ -16,6 +16,7 @@ import {profileLogout} from "./../../actions/loginAction";
 import { getProfile } from "./../../actions/loginAction";
 // import { ReactComponent as Logo } from  "./../../";
 import { getLocalStorageData } from "./../../utils/utils";
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,8 +109,9 @@ export default function Header({ path, history }) {
               open={open}
               onClose={handleClose}
             >
-              {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem> */}
+              
+              <MenuItem component={RouterLink} to="/home">Search</MenuItem>
+              <MenuItem component={RouterLink} to="/patient">Create New Entry</MenuItem>
               <MenuItem onClick={handleLogOut}>Logout</MenuItem>
             </Menu>
           </div>

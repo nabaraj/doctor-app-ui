@@ -57,3 +57,23 @@ export function getPatientHistory(pi, di){
     })
   }
 }
+export function searchPatient(pageSize, str, nextPage){
+  return function(dispatch){
+    let searchObject = {
+      url:`${urlMapping['search']}/${nextPage}/?searchStr=${str}&pageSize=${pageSize}`,
+      method: 'GET',
+      headers: AUTH_USER()
+    }
+    dispatch({type:'SEARCH_LOADER'})
+    requestApi(searchObject)
+    .then(res=>{
+      res.data["searchText"] = str;
+      dispatch({type:'SEARCH_RESULT_ADD', payload:res.data})
+      dispatch({type:'SEARCH_LOADER'})
+    })
+    .catch(err=>{
+      dispatch({ type: "SEARCH_RESULT_ADD", payload: {'error':"No result found"} })
+      dispatch({type:'SEARCH_LOADER'})
+    })
+  }
+}
