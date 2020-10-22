@@ -53,7 +53,7 @@ export default function DisplayPatient(props) {
 
   return (
     <div>
-      <Header path={props.location.pathname} />
+      <Header path={props.location.pathname} history={this.props.history} />
       <Container className="py-4" maxWidth="md">
         {patientDetails.error ? (
           <Card>
