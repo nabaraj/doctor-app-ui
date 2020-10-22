@@ -57,7 +57,7 @@ export default function PrescriptionForm() {
             color="primary"
           ></Switch>
         }
-        label="Show hide field"
+        label="Show editor"
       ></FormControlLabel>
       <Grid container spacing="3" className="p-3">
         <Grid item xs="12">
