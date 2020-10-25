@@ -5,20 +5,46 @@ import Header from "./../../components/header/Header";
 import { getLocalStorageData } from "./../../utils/utils";
 import { getProfile } from "./../../actions/loginAction";
 import { bindActionCreators } from "redux";
-import { Container, Grid, Button, Typography, Card } from "@material-ui/core";
+import { Container, Grid, Button, CircularProgress, Typography } from "@material-ui/core";
 import Autocomplete from "../../components/autocomplete/Autocomplete";
-import { searchPatient } from "./../../actions/patientAction";
-import { Link as RouterLink } from 'react-router-dom';
-
-
+import { searchPatient, loadMore } from "./../../actions/patientAction";
+import { Link as RouterLink } from "react-router-dom";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import PatientTable from "../../components/patientTable/PatientTable";
+import "./home.scss";
+import ButtonComponent from "../../components/button/ButtonComponent";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoggedIn: false,
+      pageSize: 3,
+      nextPage: 1,
+      searchStr: "",
+      headData: [
+        {
+          key: "firstName",
+          label: "First Name",
+        },
+        {
+          key: "lastName",
+          label: "Last Name",
+        },
+        {
+          key: "patientId",
+          label: "ID",
+          className: "linkItem",
+        },
+        {
+          key: "lastVisit",
+          label: "Last Visit",
+          className: "linkItem",
+        },
+      ],
     };
     this.searchPatientEvent = this.searchPatientEvent.bind(this);
+    this.patientPage = this.patientPage.bind(this);
   }
   loadImage() {
     let randomNumber = Math.floor(Math.random() * 999) + 1;
@@ -51,8 +77,18 @@ class Home extends Component {
       return <Redirect to="/" />;
     } else return null;
   }
-  searchPatientEvent(pageSize, str, nextPage) {
-    this.props.searchPatient(pageSize, str, nextPage);
+  searchPatientEvent(str) {
+    this.setState(
+      {
+        searchStr: str,
+      },
+      () => {
+        this.props.searchPatient(this.state.pageSize, str, this.state.nextPage);
+      }
+    );
+  }
+  patientPage(patientId) {
+    this.props.history.push(`/patient/${patientId}`);
   }
   // componentDidUpdate(prevProps) {
   //   if (prevProps.user.userLoggedIn !== this.props.user.userLoggedIn) {
@@ -60,42 +96,71 @@ class Home extends Component {
   //   }
   // }
   render() {
-    let { serchData } = this.props.patientData;
+    let { searchData, loadMoreLoading } = this.props.patientData;
     return (
       <div>
         <Header path="/home" history={this.props.history} />
         <Container className="py-4" maxWidth="md">
           <Grid container spacing={3} alignItems="center">
             <Grid item sm="9" xs="12">
-              <Autocomplete 
-                searchPatientEvent={this.searchPatientEvent} 
+              <Autocomplete
+                searchPatientEvent={this.searchPatientEvent}
                 searchLoading={this.props.patientData.searchLoading}
               />
             </Grid>
             <Grid item sm="3" xs="12" className="text-right">
-              <Button
+              <ButtonComponent
                 to="/patient"
                 size="large"
                 className="fullWidth"
                 color="primary"
                 component={RouterLink}
+                variant="outlined"
               >
                 Add new entry
-              </Button>
+              </ButtonComponent>
             </Grid>
-            <Grid item xs="12"></Grid>
+            <Grid item xs="12" className="text-right">
+              {searchData && (
+                <Button
+                  variant="outlined"
+                  // variant="contained"
+                  onClick={() =>
+                    this.props.loadMore(
+                      this.state.pageSize,
+                      this.state.searchStr,
+                      searchData.nextLink
+                    )
+                  }
+                  color="primary"
+                  disabled={loadMoreLoading || !searchData.nextLink}
+                >
+                  load more
+                  {loadMoreLoading ? (
+                    <CircularProgress
+                      style={{ width: "20px", height: "20px" }}
+                    ></CircularProgress>
+                  ) : (
+                    <ArrowForwardIosIcon fontSize="small"></ArrowForwardIosIcon>
+                  )}
+                </Button>
+              )}
+            </Grid>
 
-            {serchData.results &&
-              serchData.results.map((item, index) => (
-                <Grid  key={item._id} item sm="4" xs="12">
-                  <RouterLink to={`/patient/${item._id}`}>
-                    <Card className="p-3">
-                      <Typography>{item.firstName} {item.lastName}</Typography>
-                      <Typography>{item.patientId}</Typography>
-                    </Card>
-                  </RouterLink>
-                </Grid>
+            {/* {serchData.results && <List className="patientList">
+              {serchData.results.map((item, index) => (
+               
+                <PatientListItem key={item.patientId} item={item}></PatientListItem>
               ))}
+              </List>} */}
+            {searchData.results && searchData.results.length>0 ? (
+              <PatientTable
+                headData={this.state.headData}
+                bodyData={searchData.results}
+                patientPage={this.patientPage}
+              ></PatientTable>):
+              (<Grid item xs="12"><Typography className="text-center">No results found</Typography></Grid>
+            )}
           </Grid>
         </Container>
       </div>
@@ -108,6 +173,7 @@ function mapDispatchToProps(dispatch) {
     {
       getProfile: getProfile,
       searchPatient: searchPatient,
+      loadMore: loadMore,
     },
     dispatch
   );

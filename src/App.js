@@ -21,6 +21,7 @@ const theme = createMuiTheme({
     },
   },
 });
+theme.background= 'linear-gradient(0deg, #006351 0%, #007066 100%)'
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,7 @@ export default class App extends Component {
     };
   }
   render() {
+    console.log(theme)
     return (
       <main>
       <ThemeProvider theme={theme}>

@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f50057',
 
   },
+  header:{
+    background:theme.background
+  }
 }));
 
 export default function Header({ path, history }) {
@@ -62,7 +65,7 @@ export default function Header({ path, history }) {
         }
   },[])
   return (
-    <AppBar position="static" className="color-white">
+    <AppBar position="static" className={`${classes.header} color-white`}>
       {/* {!userLoggedIn && <Redirect to='/'/>} */}
       <Toolbar>
         <div color="inherit">

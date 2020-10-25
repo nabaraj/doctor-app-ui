@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
+import ClearIcon from '@material-ui/icons/Clear';
 import "./autocomplete.scss";
 var debounce = require('lodash.debounce');
 export default class Autocomplete extends Component {
@@ -14,6 +15,7 @@ export default class Autocomplete extends Component {
     this.changeInput = this.changeInput.bind(this);
     this.searchPatient = this.searchPatient.bind(this);
     this.searchDebounce = this.searchDebounce.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
   }
   changeInput(e){
     let value = e.target.value;
@@ -28,13 +30,18 @@ export default class Autocomplete extends Component {
     }
   })
   }
+  clearSearch(){
+    this.setState({
+      searchInput:''
+    })
+  }
   searchPatient(event) {
     this.searchDebounce();
   }
 
   searchDebounce = debounce(function () {
     // console.log(this.state.searchInput)
-    this.props.searchPatientEvent(10, this.state.searchInput, 1)
+    this.props.searchPatientEvent(this.state.searchInput)
   }, 500);
   render() {
     return (
@@ -62,11 +69,14 @@ export default class Autocomplete extends Component {
               variant="outlined"
               className="fullWidth searchInput"
               onChange={this.changeInput}
-              value={this.searchInput}
+              value={this.state.searchInput}
             />
           </Grid>
           {this.props.searchLoading && <div className="pos-absolute searchButton pr-3">
             <CircularProgress style={{width:"20px", height:"20px"}}></CircularProgress>
+          </div>}
+          {this.state.searchInput.length > 0 && <div onClick={this.clearSearch} className="pos-absolute searchButton pr-3">
+            <ClearIcon style={{width:"20px", height:"20px"}}></ClearIcon>
           </div>}
           
         </Grid>

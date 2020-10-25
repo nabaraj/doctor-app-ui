@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   basePath = "https://doctor-app-backend-express.herokuapp.com";
 }
 const urlMapping = {
+  base: basePath,
   login: `${basePath}/${doctor}/login`,
   profile: `${basePath}/profile`,
   logout: `${basePath}/logout`,

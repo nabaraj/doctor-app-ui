@@ -3,8 +3,9 @@
 let initialValue = {
   patientDetails:{},
   patientHistory:null,
-  serchData:{},
-  searchLoading:false
+  searchData:{},
+  searchLoading:false,
+  loadMoreLoading:false
 }
 const patientReducer = (
   state = initialValue,
@@ -18,10 +19,17 @@ const patientReducer = (
     case 'STORE_USER_HISTORY':
       return Object.assign({}, state, {patientHistory:{...action.payload}})
     case 'SEARCH_RESULT_ADD':
-      return Object.assign({}, state, {serchData:{...action.payload}})
+      return Object.assign({}, state, {searchData:{...action.payload}})
+    case 'SEARCH_RESULT_LOADMORE':
+      return Object.assign({}, state, 
+        {searchData:mergePatientData(state.searchData, action.payload)
+         })
     case 'SEARCH_LOADER':
       let loading = state.searchLoading;
       return Object.assign({}, state, {searchLoading:!loading})
+    case 'LOADMORE_LOADER':
+      let loadMore = state.loadMoreLoading;
+      return Object.assign({}, state, {loadMoreLoading:!loadMore})
     default:
       return state;
   }
@@ -29,3 +37,10 @@ const patientReducer = (
 };
 
 export default patientReducer;
+
+function mergePatientData(searchData, payload){
+  let updatedData = searchData
+  updatedData.nextLink = payload.nextLink;
+  updatedData.results = [...payload.results, ...updatedData.results];
+  return updatedData
+}

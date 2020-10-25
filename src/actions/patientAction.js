@@ -77,3 +77,24 @@ export function searchPatient(pageSize, str, nextPage){
     })
   }
 }
+export function loadMore(pageSize, str, nextPageUrl){
+  return function(dispatch){
+    let searchObject = {
+      url:`${urlMapping['base']}/${nextPageUrl}/?searchStr=${str}&pageSize=${pageSize}`,
+      method: 'GET',
+      headers: AUTH_USER()
+    }
+    dispatch({type:'LOADMORE_LOADER'})
+    requestApi(searchObject)
+    .then(res=>{
+      res.data["searchText"] = str;
+      dispatch({type:'SEARCH_RESULT_LOADMORE', payload:res.data})
+      dispatch({type:'LOADMORE_LOADER'})
+    })
+    .catch(err=>{
+
+      dispatch({ type: "SEARCH_RESULT_ADD", payload: {'error':"No result found"} })
+      dispatch({type:'LOADMORE_LOADER'})
+    })
+  }
+}
