@@ -98,3 +98,43 @@ export function loadMore(pageSize, str, nextPageUrl){
     })
   }
 }
+export function submitPrescription(prescriptionForm){
+  return function(dispatch){
+    let searchObject = {
+      url:`${urlMapping['postPrescription']}`,
+      method: 'POST',
+      data:prescriptionForm,
+      headers: AUTH_USER()
+    }
+    dispatch({type:'PRESCRIPTION_LOADER'})
+    requestApi(searchObject)
+    .then(res=>{
+      dispatch({type:'PRESCRIPTION_SAVE', payload:res.data.presData})
+      dispatch({type:'PRESCRIPTION_LOADER'})
+    })
+    .catch(err=>{
+      dispatch({ type: "PRESCRIPTION_SAVE", payload: {'error':"No result found"} })
+      dispatch({type:'PRESCRIPTION_LOADER'})
+    })
+  }
+}
+export function editPrescription(prescriptionForm){
+  return function(dispatch){
+    let searchObject = {
+      url:`${urlMapping['postPrescription']}`,
+      method: 'PUT',
+      data:prescriptionForm,
+      headers: AUTH_USER()
+    }
+    dispatch({type:'PRESCRIPTION_LOADER'})
+    requestApi(searchObject)
+    .then(res=>{
+      dispatch({type:'PRESCRIPTION_SAVE', payload:res.data.presData})
+      dispatch({type:'PRESCRIPTION_LOADER'})
+    })
+    .catch(err=>{
+      dispatch({ type: "PRESCRIPTION_SAVE", payload: {'error':"No result found"} })
+      dispatch({type:'PRESCRIPTION_LOADER'})
+    })
+  }
+}

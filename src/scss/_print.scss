@@ -1,5 +1,8 @@
-@media print{
-body{
-  background-color: red !important;
-}
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+  .d-print-block {
+    display: block !important;
+  }
 }

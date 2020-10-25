@@ -16,7 +16,7 @@ const urlMapping = {
   patientDetails: `${basePath}/${patient}/details`,
   patientHistory: `${basePath}/${patient}/history`,
   search: `${basePath}/${patient}/search`,
-
+  postPrescription: `${basePath}/${patient}/prescription`
 };
 
 export { urlMapping };

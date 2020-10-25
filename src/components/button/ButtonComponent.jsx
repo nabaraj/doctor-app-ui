@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonComponent(props) {
   const classes = useStyles();
   let newProps = {...props};
-  console.log(newProps);
-  if(newProps.variant==='contained' || !newProps.disabled){
+  // console.log("newProps ", newProps.disabled);
+  if(newProps.variant==='contained' && !newProps.disabled){
     newProps.className = `${newProps.className} ${classes.CustomButton}`;
   }
   

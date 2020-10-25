@@ -30,7 +30,6 @@ export default class App extends Component {
     };
   }
   render() {
-    console.log(theme)
     return (
       <main>
       <ThemeProvider theme={theme}>

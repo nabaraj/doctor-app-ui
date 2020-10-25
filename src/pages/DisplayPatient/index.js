@@ -13,17 +13,17 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
-import { getPatientDetails } from "../../actions/patientAction";
+import { getPatientDetails, submitPrescription, editPrescription } from "../../actions/patientAction";
 import { useSelector, useDispatch } from "react-redux";
 import { calculate_age } from "./../../utils/utils";
-import { makeStyles } from '@material-ui/core/styles';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { makeStyles } from "@material-ui/core/styles";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HistoryComponent from "./HistoryComponent";
 import PrescriptionForm from "./PrescriptionForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -32,9 +32,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DisplayPatient(props) {
-  const { patientDetails } = useSelector((state) => state.patientData);
-  const {user} = useSelector((state) => state.userData);
-  const [toggleHistory, setToggleHistory] = useState(false)
+  const { patientDetails, prescription } = useSelector((state) => state.patientData);
+  // const { patientDetails } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.userData);
+  const [toggleHistory, setToggleHistory] = useState(false);
   const classes = useStyles();
   const dispatch = useDispatch();
   let pathId = props.match.params.id;
@@ -45,10 +46,36 @@ export default function DisplayPatient(props) {
       dispatch(getPatientDetails(pathId));
     }
   }, []);
-
-  const onExpanded =(e, expanded)=>{
+  
+  const onExpanded = (e, expanded) => {
     console.log(e.target, expanded);
-    setToggleHistory(expanded)
+    setToggleHistory(expanded);
+  };
+  const submitForm = (formContent, editMode)=>{
+    let prescriptionData={};
+    if(editMode){
+      // prescriptionData.prescriptionContent = formContent;
+      // prescriptionData.id=prescription._id;
+      // prescriptionData.patientId = patientDetails._id;
+      // prescriptionData.date = new Date();
+      prescriptionData = {
+        id:prescription._id,
+        prescriptionContent:formContent, 
+        patientId:patientDetails._id, 
+        doctorId: user._id,
+        date:new Date()
+      }
+      dispatch(editPrescription(prescriptionData))
+    }else{
+    prescriptionData = {
+      prescriptionContent:formContent, 
+      patientId:patientDetails._id, 
+      doctorId: user._id,
+      date:new Date()
+    }
+    dispatch(submitPrescription(prescriptionData))
+  }
+    
   }
 
   return (
@@ -85,7 +112,7 @@ export default function DisplayPatient(props) {
                 </ListItem>
               </List>
             </Card>
-            <Card className="mt-3">
+            <Card className="mt-3 noPrint">
               <Accordion onChange={onExpanded}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -97,17 +124,22 @@ export default function DisplayPatient(props) {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {toggleHistory && 
-                    <HistoryComponent 
-                    patientDetails = {patientDetails}
-                    doctorDetails = {user}
-                    ></HistoryComponent>}
+                  {toggleHistory && (
+                    <HistoryComponent
+                      patientDetails={patientDetails}
+                      doctorDetails={user}
+                    ></HistoryComponent>
+                  )}
                 </AccordionDetails>
               </Accordion>
             </Card>
-            <Card className="mt-3">
-              <PrescriptionForm></PrescriptionForm>
-            </Card>
+
+            <PrescriptionForm 
+              submitForm={submitForm}
+              prescription = {prescription}
+            >
+
+            </PrescriptionForm>
           </div>
         )}
       </Container>

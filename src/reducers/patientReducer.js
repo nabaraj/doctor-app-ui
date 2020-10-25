@@ -5,7 +5,8 @@ let initialValue = {
   patientHistory:null,
   searchData:{},
   searchLoading:false,
-  loadMoreLoading:false
+  loadMoreLoading:false,
+  prescription:{}
 }
 const patientReducer = (
   state = initialValue,
@@ -20,6 +21,8 @@ const patientReducer = (
       return Object.assign({}, state, {patientHistory:{...action.payload}})
     case 'SEARCH_RESULT_ADD':
       return Object.assign({}, state, {searchData:{...action.payload}})
+    case 'PRESCRIPTION_SAVE':
+      return Object.assign({}, state, {prescription:{...action.payload}})
     case 'SEARCH_RESULT_LOADMORE':
       return Object.assign({}, state, 
         {searchData:mergePatientData(state.searchData, action.payload)

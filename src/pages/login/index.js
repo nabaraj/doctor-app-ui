@@ -7,7 +7,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { userLogin,resetLogin } from "../../actions/loginAction";
-import Header from "./../../components/header/Header";
+// import Header from "./../../components/header/Header";
 import { Redirect } from "react-router-dom";
 
 const initialState = {

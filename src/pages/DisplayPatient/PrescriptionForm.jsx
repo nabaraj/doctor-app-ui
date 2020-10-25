@@ -3,28 +3,34 @@ import {
   FormControlLabel,
   Grid,
   Switch,
-  TextField,
-  Typography,
+  Card,
 } from "@material-ui/core";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Label } from "@material-ui/icons";
+import ButtonComponent from "./../../components/button/ButtonComponent";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
     color: "#ffffff",
   },
+  editorArea: {
+    minHeight: "200px",
+  },
 }));
 
-export default function PrescriptionForm() {
+export default function PrescriptionForm({ submitForm, prescription }) {
   const classes = useStyles();
   const [toggleContent, setToggle] = useState(false);
+  const [oldContent, setOldContent] = useState("");
+  const [switchLabel, setSwithLabel] = useState("Show editor");
+  const [editToggle, setEditToggle] = useState(false);
   const [presObject, setPres] = useState({
-    symptoms: "Symptoms content",
+    symptoms: "",
     testReq: "Test Content",
     medication: "Medication Content",
+    prescriptionContent: "",
   });
   const handleChange = (event) => {
     setToggle(event.target.checked);
@@ -34,19 +40,44 @@ export default function PrescriptionForm() {
     setPres(presData);
   };
   const rteChange = (content, delta, source, editor, name) => {
-    console.log(editor.getHTML()); // rich text
-    console.log(editor.getText()); // plain text
-    console.log(editor.getLength()); // number of characters
-    console.log(name);
-    changeField(name, editor.getHTML());
+    // console.log(editor.getHTML()); // rich text
+    // console.log(editor.getText()); // plain text
+    // console.log(editor.getLength()); // number of characters
+    // console.log(name);
+    let editorHtml = editor.getHTML() === "<p><br></p>" ? "" : editor.getHTML();
+    changeField(name, editorHtml);
   };
   const createMarkup = (content) => {
     return { __html: content };
   };
+  useEffect(() => {
+    if (Object.keys(prescription).length > 0 ){
+     if (prescription.pc !== oldContent) {
+      let presObj = { ...presObject };
+      presObj.prescriptionContent = prescription.pc;
+      setPres({ ...presObj });
+      setToggle(false);
+      setEditToggle(true);
+      setOldContent(prescription.pc)
+      setSwithLabel("Edit Prescription");
+    }}
+  }, [prescription]);
   return (
     <form>
+      <Grid container spacing="3" className="p-3">
+        <Grid item xs="12">
+          {!toggleContent && (
+            <div
+              dangerouslySetInnerHTML={createMarkup(
+                presObject.prescriptionContent
+              )}
+            />
+          )}
+        </Grid>
+      </Grid>
+
       <FormControlLabel
-        className="px-3"
+        className="px-3 noPrint"
         control={
           <Switch
             checked={toggleContent}
@@ -57,74 +88,39 @@ export default function PrescriptionForm() {
             color="primary"
           ></Switch>
         }
-        label="Show editor"
+        label={switchLabel}
       ></FormControlLabel>
       <Grid container spacing="3" className="p-3">
-        <Grid item xs="12">
-        <label>Symptoms</label>
+        <Grid item xs="12" className="noPrint">
+          <label>Prescription</label>
           {!toggleContent ? (
-            <div dangerouslySetInnerHTML={createMarkup(presObject.symptoms)}/>
+            ""
           ) : (
             <Fragment>
-            
-            <ReactQuill
-              theme="snow"
-              value={presObject.symptoms}
-              onChange={(content, delta, source, editor) =>
-                rteChange(content, delta, source, editor, "symptoms")
-              }
-            />
-            </Fragment>
-          )}
-        </Grid>
-
-        <Grid item xs="12">
-        <label>Test</label>
-          {!toggleContent ? (
-            <div dangerouslySetInnerHTML={createMarkup(presObject.testReq)}/>
-          ) : (
-            <Fragment>
-            
-            <ReactQuill
-              theme="snow"
-              value={presObject.testReq}
-              onChange={(content, delta, source, editor) =>
-                rteChange(content, delta, source, editor, "testReq")
-              }
-            /></Fragment>
-          )}
-        </Grid>
-        <Grid item xs="12">
-        <label>Medication</label>
-          {!toggleContent ? (
-            <div dangerouslySetInnerHTML={createMarkup(presObject.medication)}/>
-          ) : (
-            <Fragment>
-              
               <ReactQuill
                 theme="snow"
-                value={presObject.medication}
+                value={presObject.prescriptionContent}
                 onChange={(content, delta, source, editor) =>
-                  rteChange(content, delta, source, editor, "medication")
+                  rteChange(
+                    content,
+                    delta,
+                    source,
+                    editor,
+                    "prescriptionContent"
+                  )
                 }
-              />
+              ></ReactQuill>
+              <p></p>
+              <ButtonComponent
+                variant="contained"
+                color="primary"
+                onClick={() => submitForm(presObject.prescriptionContent, editToggle)}
+                disabled={!presObject.prescriptionContent}
+              >
+                Submit Prescription
+              </ButtonComponent>
             </Fragment>
           )}
-        </Grid>
-        <Grid item xs="12" className="text-center">
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={`${classes.submit} w-50`}
-
-            // disabled={(!account.userName && !account.password) || loginLoading}
-          >
-            Submit
-            {/* {loginLoading && <div className="pl-2 w-15 d-flex justify-content-center">
-                      <CircularProgress color="secondary" className="w-75" size="20"/>
-                    </div>} */}
-          </Button>
         </Grid>
       </Grid>
     </form>
