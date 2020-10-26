@@ -1,3 +1,4 @@
+import moment from "moment";
 const getCookie = function (cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
@@ -13,13 +14,13 @@ const getCookie = function (cname) {
   }
   return null;
 };
-const getLocalStorageData = function(storageName){
+const getLocalStorageData = function (storageName) {
   let localToken = window.localStorage.getItem(storageName);
-  return localToken === null ? false : localToken; 
-}
+  return localToken === null ? false : localToken;
+};
 
 let AUTH_USER = function () {
-  return getLocalStorageData('token')
+  return getLocalStorageData("token")
     ? { Authorization: "Bearer " + getLocalStorageData("token") }
     : getLocalStorageData("token");
 };
@@ -27,14 +28,28 @@ let AUTH_USER = function () {
 let validateEmail = function (email) {
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
-}
+};
 
-function calculate_age(dob) { 
-    let doB = new Date(dob);
-    console.log(doB);
-    var diff_ms = Date.now() - doB.getTime();
-    var age_dt = new Date(diff_ms); 
-  
-    return Math.abs(age_dt.getUTCFullYear() - 1970);
+function calculate_age(dob) {
+  let doB = new Date(dob);
+  console.log(doB);
+  var diff_ms = Date.now() - doB.getTime();
+  var age_dt = new Date(diff_ms);
+
+  return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
-export { getCookie, getLocalStorageData, AUTH_USER, validateEmail, calculate_age };
+function createMarkup(content) {
+  return { __html: content };
+}
+function convertDate(date) {
+  return moment(date).format("MMMM Do YYYY");
+}
+export {
+  convertDate,
+  getCookie,
+  getLocalStorageData,
+  AUTH_USER,
+  validateEmail,
+  calculate_age,
+  createMarkup,
+};

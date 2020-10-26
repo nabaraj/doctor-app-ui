@@ -6,7 +6,8 @@ let initialValue = {
   searchData:{},
   searchLoading:false,
   loadMoreLoading:false,
-  prescription:{}
+  prescription:{},
+  historyLoading:false
 }
 const patientReducer = (
   state = initialValue,
@@ -18,7 +19,7 @@ const patientReducer = (
     case 'CLEAR_PATIENT_DETAILS':
       return Object.assign({}, state, initialValue)
     case 'STORE_USER_HISTORY':
-      return Object.assign({}, state, {patientHistory:{...action.payload}})
+      return Object.assign({}, state, {patientHistory:[...action.payload]})
     case 'SEARCH_RESULT_ADD':
       return Object.assign({}, state, {searchData:{...action.payload}})
     case 'PRESCRIPTION_SAVE':
@@ -30,6 +31,9 @@ const patientReducer = (
     case 'SEARCH_LOADER':
       let loading = state.searchLoading;
       return Object.assign({}, state, {searchLoading:!loading})
+    case 'HISTORY_LOADER':
+      let historyLoader = state.historyLoading;
+      return Object.assign({}, state, {historyLoading:!historyLoader})
     case 'LOADMORE_LOADER':
       let loadMore = state.loadMoreLoading;
       return Object.assign({}, state, {loadMoreLoading:!loadMore})

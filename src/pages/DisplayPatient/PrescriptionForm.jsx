@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ButtonComponent from "./../../components/button/ButtonComponent";
+import {createMarkup} from "./../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -47,9 +48,7 @@ export default function PrescriptionForm({ submitForm, prescription }) {
     let editorHtml = editor.getHTML() === "<p><br></p>" ? "" : editor.getHTML();
     changeField(name, editorHtml);
   };
-  const createMarkup = (content) => {
-    return { __html: content };
-  };
+  
   useEffect(() => {
     if (Object.keys(prescription).length > 0 ){
      if (prescription.pc !== oldContent) {

@@ -1,13 +1,14 @@
 import React from 'react'
 import {Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Avatar } from "@material-ui/core";
 // import { Link } from 'react-router-dom';
-import moment from 'moment';
+
 import "./patientTable.scss";
+import {convertDate} from "./../../utils/utils";
 
 let convertData = (value, type)=>{
   if(!type) return value
   if(type==='date'){
-    return moment(value).format("MMMM Do YYYY")
+    return convertDate(value)
   }
   // return value
 }

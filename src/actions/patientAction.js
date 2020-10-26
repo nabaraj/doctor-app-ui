@@ -48,11 +48,14 @@ export function getPatientHistory(pi, di){
       method: 'GET',
       headers: AUTH_USER()
     }
+    dispatch({type:'HISTORY_LOADER'})
     requestApi(getHistoryObject)
     .then(res=>{
+      dispatch({type:'HISTORY_LOADER'})
       dispatch({type:'STORE_USER_HISTORY', payload: res.data})
     })
     .catch(error=>{
+      dispatch({type:'HISTORY_LOADER'})
       dispatch({ type: "STORE_USER_HISTORY", payload: {'error':"No history found"} });
     })
   }
