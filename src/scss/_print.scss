@@ -1,4 +1,5 @@
 @media print {
+  @page { margin-top: 30px; margin-bottom: 30px;}
   .noPrint {
     display: none !important;
   }

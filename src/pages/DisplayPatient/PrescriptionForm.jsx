@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ButtonComponent from "./../../components/button/ButtonComponent";
-import {createMarkup} from "./../../utils/utils";
+import { createMarkup } from "./../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -48,22 +48,23 @@ export default function PrescriptionForm({ submitForm, prescription }) {
     let editorHtml = editor.getHTML() === "<p><br></p>" ? "" : editor.getHTML();
     changeField(name, editorHtml);
   };
-  
+
   useEffect(() => {
-    if (Object.keys(prescription).length > 0 ){
-     if (prescription.pc !== oldContent) {
-      let presObj = { ...presObject };
-      presObj.prescriptionContent = prescription.pc;
-      setPres({ ...presObj });
-      setToggle(false);
-      setEditToggle(true);
-      setOldContent(prescription.pc)
-      setSwithLabel("Edit Prescription");
-    }}
+    if (Object.keys(prescription).length > 0) {
+      if (prescription.pc !== oldContent) {
+        let presObj = { ...presObject };
+        presObj.prescriptionContent = prescription.pc;
+        setPres({ ...presObj });
+        setToggle(false);
+        setEditToggle(true);
+        setOldContent(prescription.pc);
+        setSwithLabel("Edit Prescription");
+      }
+    }
   }, [prescription]);
   return (
     <form>
-      <Grid container spacing="3" className="p-3">
+      <Grid container spacing="3" className="p-3 d-print-block">
         <Grid item xs="12">
           {!toggleContent && (
             <div
@@ -113,7 +114,9 @@ export default function PrescriptionForm({ submitForm, prescription }) {
               <ButtonComponent
                 variant="contained"
                 color="primary"
-                onClick={() => submitForm(presObject.prescriptionContent, editToggle)}
+                onClick={() =>
+                  submitForm(presObject.prescriptionContent, editToggle)
+                }
                 disabled={!presObject.prescriptionContent}
               >
                 Submit Prescription
