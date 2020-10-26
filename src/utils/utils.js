@@ -32,10 +32,9 @@ let validateEmail = function (email) {
 
 function calculate_age(dob) {
   let doB = new Date(dob);
-  console.log(doB);
   var diff_ms = Date.now() - doB.getTime();
   var age_dt = new Date(diff_ms);
-
+  // console.log(age_dt.getUTCFullYear() - 1970);
   return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
 function createMarkup(content) {

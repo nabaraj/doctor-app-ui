@@ -1,10 +1,4 @@
-import {
-  Button,
-  FormControlLabel,
-  Grid,
-  Switch,
-  Card,
-} from "@material-ui/core";
+import { FormControlLabel, Grid, Switch } from "@material-ui/core";
 import React, { Fragment, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactQuill from "react-quill";
@@ -22,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrescriptionForm({ submitForm, prescription }) {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [toggleContent, setToggle] = useState(false);
   const [oldContent, setOldContent] = useState("");
   const [switchLabel, setSwithLabel] = useState("Show editor");

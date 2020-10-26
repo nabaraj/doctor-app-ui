@@ -7,6 +7,7 @@ import {
   Grid,
   List,
   ListItem,
+  IconButton,
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HistoryComponent from "./HistoryComponent";
 import PrescriptionForm from "./PrescriptionForm";
+import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +91,12 @@ export default function DisplayPatient(props) {
     <div>
       <Header path={props.location.pathname} history={props.history} />
 
-      <Container className="py-4" maxWidth="md">
+      <Container className="py-2" maxWidth="md">
+        <div className="text-right">
+          <IconButton onClick={() => window.print()}>
+            <PrintOutlinedIcon></PrintOutlinedIcon>
+          </IconButton>
+        </div>
         <div className="doctorInfo d-none">
           <Typography component="h5">
             {user.initial} {user.name}

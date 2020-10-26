@@ -11,11 +11,14 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { Component } from "react";
 import Header from "./../../components/header/Header";
 import { Container, Grid, Button } from "@material-ui/core";
-import {patientRegistration, clearPatientDetails} from "./../../actions/patientAction";
+import {
+  patientRegistration,
+  clearPatientDetails,
+} from "./../../actions/patientAction";
 import { connect } from "react-redux";
-import { bindActionCreators, dispatch } from "redux";
-import {validateEmail} from "./../../utils/utils";
-import MenuItem from '@material-ui/core/MenuItem';
+import { bindActionCreators } from "redux";
+import { validateEmail } from "./../../utils/utils";
+import MenuItem from "@material-ui/core/MenuItem";
 
 class Patient extends Component {
   constructor(props) {
@@ -30,57 +33,64 @@ class Patient extends Component {
         phone: "",
         nationality: "",
         dob: "",
-        insurance: '',
+        insurance: "",
         address: "",
         image: "",
         gender: "",
-        height: ""      },
-      genderOption:[{
-        value:"M",
-        label:"Male"
-      },{
-        value:"F",
-        label:"Female"
-      }]
+        height: "",
+      },
+      genderOption: [
+        {
+          value: "M",
+          label: "Male",
+        },
+        {
+          value: "F",
+          label: "Female",
+        },
+      ],
     };
     this.handleChange = this.handleChange.bind(this);
     this.patientRegistration = this.patientRegistration.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.clearPatientDetails();
   }
-  
+
   handleChange(e) {
     let name = e.target.name;
     let value = e.target.value;
-    let setFormData = {...this.state.formData, [name]:value};
+    let setFormData = { ...this.state.formData, [name]: value };
     this.setState({
-      formData:setFormData,
+      formData: setFormData,
     });
   }
-  patientRegistration(e){
+  patientRegistration(e) {
     e.preventDefault();
-    let setFormData = {...this.state.formData,  'doctorId':this.props.user._id};
-    this.setState({
-      loadingForm:true,
-      formData:setFormData
-    },()=> {
-      
-      this.props.patientRegistration(this.state.formData)})
+    let setFormData = { ...this.state.formData, doctorId: this.props.user._id };
+    this.setState(
+      {
+        loadingForm: true,
+        formData: setFormData,
+      },
+      () => {
+        this.props.patientRegistration(this.state.formData);
+      }
+    );
   }
-  componentDidUpdate(prevProps){
-    
-    if(Object.keys(this.props.patientData).length>0){
+  componentDidUpdate(prevProps) {
+    if (Object.keys(this.props.patientData).length > 0) {
       this.setState({
-      loadingForm:false
-    })
+        loadingForm: false,
+      });
 
-      this.props.history.push("/patient/"+this.props.patientData._id)
+      this.props.history.push("/patient/" + this.props.patientData._id);
     }
   }
   render() {
-    let{firstName,
+    let {
+      firstName,
       lastName,
       email,
       phone,
@@ -88,12 +98,13 @@ class Patient extends Component {
       insurance,
       address,
       gender,
-      height}=this.state.formData;
+      height,
+    } = this.state.formData;
     return (
       <div>
         <Header path={this.props.location.pathname} />
         <Container className="py-4" maxWidth="md">
-        <Card className="p-3">
+          <Card className="p-3">
             <form onSubmit={this.patientRegistration}>
               <Grid container spacing={3} alignItems="center">
                 <Grid item sm="6" xs="12">
@@ -102,7 +113,7 @@ class Patient extends Component {
                     id="firstName"
                     name="firstName"
                     label="First Name"
-                    value = {firstName}
+                    value={firstName}
                     fullWidth
                     onChange={this.handleChange}
                   />
@@ -126,7 +137,7 @@ class Patient extends Component {
                     fullWidth
                     type="email"
                     value={email}
-                    error={email!=='' && !validateEmail(email)}
+                    error={email !== "" && !validateEmail(email)}
                     onChange={this.handleChange}
                   />
                 </Grid>
@@ -142,10 +153,10 @@ class Patient extends Component {
                   >
                     this.state.genderOption
                     {this.state.genderOption.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
                   </TextField>
                 </Grid>
 
@@ -244,14 +255,16 @@ class Patient extends Component {
                     </AccordionDetails>
                   </Accordion>
                 </Grid>
-                <Grid xs="12" className="pt-3 text-center" >
+                <Grid xs="12" className="pt-3 text-center">
                   <Button
                     type="submit"
                     variant="contained"
                     size="large"
                     color="primary"
                     className="w-75"
-                    disabled={(!firstName && !lastName)|| this.state.loadingForm}
+                    disabled={
+                      (!firstName && !lastName) || this.state.loadingForm
+                    }
                   >
                     Submit Details
                     {this.state.loadingForm && (
@@ -278,7 +291,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       patientRegistration: patientRegistration,
-      clearPatientDetails: clearPatientDetails
+      clearPatientDetails: clearPatientDetails,
     },
     dispatch
   );
@@ -286,8 +299,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     patientData: state.patientData.patientDetails,
-    user: state.userData.user
+    user: state.userData.user,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Patient)
+export default connect(mapStateToProps, mapDispatchToProps)(Patient);

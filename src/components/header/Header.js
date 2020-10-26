@@ -3,20 +3,19 @@ import AppBar from "@material-ui/core/AppBar";
 import { useSelector, useDispatch } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import { pathConst } from "./../../utils/const";
 import { Avatar, IconButton, MenuItem } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 // import AccountCircle from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 // import { Redirect } from "react-router-dom";
-import {profileLogout} from "./../../actions/loginAction";
+import { profileLogout } from "./../../actions/loginAction";
 // import { deepOrange, deepPurple } from '@material-ui/core/colors';
 // import { shadows } from '@material-ui/system';
 import { getProfile } from "./../../actions/loginAction";
 // import { ReactComponent as Logo } from  "./../../";
 import { getLocalStorageData } from "./../../utils/utils";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,13 +28,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   purple: {
-    color: '#ffffff',
-    backgroundColor: '#f50057',
-
+    color: "#ffffff",
+    backgroundColor: "#f50057",
   },
-  header:{
-    background:theme.background
-  }
+  header: {
+    background: theme.background,
+  },
 }));
 
 export default function Header({ path, history }) {
@@ -52,28 +50,57 @@ export default function Header({ path, history }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogOut = ()=>{
-    dispatch(profileLogout())
-  }
-  useEffect(()=>{
-      let token = getLocalStorageData("token");
-        if (token) {
-          console.log(token);
-          dispatch(getProfile(token));
-        } else {
-          history.push("/");
-        }
-  },[])
+  const handleLogOut = () => {
+    dispatch(profileLogout());
+  };
+  useEffect(() => {
+    let token = getLocalStorageData("token");
+    if (token) {
+      dispatch(getProfile(token));
+    } else {
+      history.push("/");
+    }
+  }, []);
   return (
     <AppBar position="static" className={`${classes.header} color-white`}>
       {/* {!userLoggedIn && <Redirect to='/'/>} */}
       <Toolbar>
         <div color="inherit">
           {/* <MenuIcon /> */}
-          <Avatar alt="Doctor App" className="img-responsive w-25"  src="/heart.svg" />
+          <Avatar
+            alt="Doctor App"
+            className="img-responsive w-25"
+            src="/heart.svg"
+          />
           {/* {`${process.env.PUBLIC_URL}/images/image.png`} */}
-          <div className="d-none">Icons made by <a href="https://www.flaticon.com/free-icon/doctor_387561?term=doctor&page=1&position=13" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div>
-          <div className="d-none">Icons made by <a href="https://www.flaticon.com/free-icon/heart_684279?term=doctor&page=2&position=5" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div>
+          <div className="d-none">
+            Icons made by{" "}
+            <a
+              href="https://www.flaticon.com/free-icon/doctor_387561?term=doctor&page=1&position=13"
+              title="Icon Pond"
+            >
+              Icon Pond
+            </a>{" "}
+            from{" "}
+            <a href="https://www.flaticon.com/" title="Flaticon">
+              {" "}
+              www.flaticon.com
+            </a>
+          </div>
+          <div className="d-none">
+            Icons made by{" "}
+            <a
+              href="https://www.flaticon.com/free-icon/heart_684279?term=doctor&page=2&position=5"
+              title="Good Ware"
+            >
+              Good Ware
+            </a>{" "}
+            from{" "}
+            <a href="https://www.flaticon.com/" title="Flaticon">
+              {" "}
+              www.flaticon.com
+            </a>
+          </div>
         </div>
         <Typography variant="h6" className={`${classes.title}`}>
           {/* {pathNameObject ? pathNameObject.title : ""} */}
@@ -81,7 +108,8 @@ export default function Header({ path, history }) {
         {userLoggedIn && (
           <div className="d-flex align-item-center">
             <Typography variant="h6" className="pr-2" fontSize={20}>
-              {user.initial}{user.name}
+              {user.initial}
+              {user.name}
             </Typography>
             <IconButton
               aria-label="account of current user"
@@ -95,7 +123,7 @@ export default function Header({ path, history }) {
               className={`${classes.purple} text-uppercase font-18`} 
               border={1}
               boxShadow={3}>{user.name.slice(0, 1)}</Avatar> */}
-              <MenuIcon/>
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -112,9 +140,12 @@ export default function Header({ path, history }) {
               open={open}
               onClose={handleClose}
             >
-              
-              <MenuItem component={RouterLink} to="/home">Search</MenuItem>
-              <MenuItem component={RouterLink} to="/patient">Create New Entry</MenuItem>
+              <MenuItem component={RouterLink} to="/home">
+                Search
+              </MenuItem>
+              <MenuItem component={RouterLink} to="/patient">
+                Create New Entry
+              </MenuItem>
               <MenuItem onClick={handleLogOut}>Logout</MenuItem>
             </Menu>
           </div>
