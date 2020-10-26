@@ -1,24 +1,29 @@
 import React from 'react'
 import {Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Avatar } from "@material-ui/core";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import moment from 'moment';
 import "./patientTable.scss";
 
-
-const addLink = (linkText,id, content)=>{
-  return (<Link 
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary" 
-            to={`${linkText}${id}`}>
-            {content}
-          </Link>)
+let convertData = (value, type)=>{
+  if(!type) return value
+  if(type==='date'){
+    return moment(value).format("MMMM Do YYYY")
+  }
+  // return value
 }
+// const addLink = (linkText,id, content)=>{
+//   return (<Link 
+//             className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary" 
+//             to={`${linkText}${id}`}>
+//             {content}
+//           </Link>)
+// }
 const renderTableRow = (bodyData, headData, patientPage)=>{
   return bodyData.map((rowItem, index)=>{
            return (<TableRow key={index}>
             {headData.map((item)=>(
               <TableCell className={`${item.className ? item.className:""}`} onClick={()=>patientPage(rowItem._id)}>
-                {/* {item.key==='firstName'?<Avatar>{rowItem['firstName'].slice(0,1)}</Avatar>:""} */}
-                {item.linkString ? addLink(item.linkString, rowItem._id, rowItem[item.key]):
-                rowItem[item.key]}
+                {convertData(rowItem[item.key], item.type)}
               </TableCell>
             ))}
           </TableRow>)

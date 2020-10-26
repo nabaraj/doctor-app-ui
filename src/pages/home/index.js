@@ -40,6 +40,7 @@ class Home extends Component {
           key: "lastVisit",
           label: "Last Visit",
           className: "linkItem",
+          type:"date"
         },
       ],
     };
