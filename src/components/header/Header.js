@@ -5,15 +5,10 @@ import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Avatar, IconButton, MenuItem } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-// import AccountCircle from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import { makeStyles } from "@material-ui/core/styles";
-// import { Redirect } from "react-router-dom";
 import { profileLogout } from "./../../actions/loginAction";
-// import { deepOrange, deepPurple } from '@material-ui/core/colors';
-// import { shadows } from '@material-ui/system';
 import { getProfile } from "./../../actions/loginAction";
-// import { ReactComponent as Logo } from  "./../../";
 import { getLocalStorageData } from "./../../utils/utils";
 import { Link as RouterLink } from "react-router-dom";
 
