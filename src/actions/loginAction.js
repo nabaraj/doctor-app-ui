@@ -11,13 +11,13 @@ export function userLogin(loginObject) {
       url: urlMapping["login"],
       data: loginObject,
     };
-    dispatch({type:'LOGIN_LOADING'});
+    dispatch({ type: "LOGIN_LOADING" });
     requestApi(options)
       .then((result) => {
-        window.localStorage.setItem('token',result.data.token)
+        window.localStorage.setItem("token", result.data.token);
         dispatch({ type: "SAVE_USER_DETAILS", payload: result.data });
-        dispatch({type:'LOGIN_LOADING'});
-        dispatch({type:'LOGIN_STATUS'});
+        dispatch({ type: "LOGIN_LOADING" });
+        dispatch({ type: "LOGIN_STATUS" });
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
@@ -26,9 +26,9 @@ export function userLogin(loginObject) {
       });
   };
 }
-export function getProfile(){
-  return function(dispatch){
-    let url =urlMapping["profile"]
+export function getProfile() {
+  return function (dispatch) {
+    let url = urlMapping["profile"];
     let profileOptions = {
       method: "GET",
       url,
@@ -40,7 +40,7 @@ export function getProfile(){
         // window.localStorage.setItem('token',result.data.token)
         dispatch({ type: "SAVE_USER_DETAILS", payload: result.data });
         // dispatch({type:'LOGIN_LOADING'});
-        dispatch({type:'LOGIN_STATUS'});
+        dispatch({ type: "LOGIN_STATUS" });
       })
       .catch((error) => {
         console.log(error);
@@ -48,14 +48,15 @@ export function getProfile(){
         // dispatch({ type: PRAIZING_LOGOUT });
         // dispatch({ type: REMOVE_USER_DETAILS });
       });
-  }
+  };
 }
-export function profileLogout(){
-  return function(dispatch){
-    let url =urlMapping["logout"]
+export function profileLogout(user) {
+  return function (dispatch) {
+    let url = urlMapping["logout"];
     let profileOptions = {
-      method: "GET",
+      method: "POST",
       url,
+      data: { userId: user._id },
       headers: AUTH_USER(),
     };
     requestApi(profileOptions)
@@ -65,10 +66,10 @@ export function profileLogout(){
       .catch((error) => {
         dispatch({ type: "RESET_LOGIN" });
       });
-  }
+  };
 }
-export function resetLogin(){
-  return function(dispatch){
-    dispatch({type:'RESET_LOGIN'})
-  }
+export function resetLogin() {
+  return function (dispatch) {
+    dispatch({ type: "RESET_LOGIN" });
+  };
 }

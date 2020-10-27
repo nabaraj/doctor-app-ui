@@ -46,7 +46,7 @@ export default function Header({ path, history }) {
     setAnchorEl(null);
   };
   const handleLogOut = () => {
-    dispatch(profileLogout());
+    dispatch(profileLogout(user));
   };
   useEffect(() => {
     let token = getLocalStorageData("token");
@@ -55,7 +55,7 @@ export default function Header({ path, history }) {
     } else {
       history.push("/");
     }
-  }, []);
+  }, [userLoggedIn]);
   return (
     <AppBar position="static" className={`${classes.header} color-white`}>
       {/* {!userLoggedIn && <Redirect to='/'/>} */}
