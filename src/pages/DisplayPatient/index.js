@@ -10,7 +10,7 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import {
   getPatientDetails,
@@ -110,8 +110,10 @@ export default function DisplayPatient(props) {
               {patientDetails.firstName} {patientDetails.lastName}
             </Typography>
             <div className="ml-auto">
-              Gender: {patientDetails.gender || ""}
-              Age:{" "}
+              {patientDetails.gender && (
+                <Fragment>Gender: {patientDetails.gender || ""}</Fragment>
+              )}
+              {patientDetails.dob && <Fragment>Age:</Fragment>}
               {isNaN(calculate_age(patientDetails.dob))
                 ? ""
                 : calculate_age(patientDetails.dob)}
