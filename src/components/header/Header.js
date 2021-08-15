@@ -64,7 +64,7 @@ export default function Header({ path, history }) {
           {/* <MenuIcon /> */}
           <Avatar
             alt="Doctor App"
-            className="img-responsive w-25"
+            className="img-responsive"
             src="/heart.svg"
           />
           {/* {`${process.env.PUBLIC_URL}/images/image.png`} */}
